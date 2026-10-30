@@ -1,41 +1,68 @@
 import type { ComponentProps, ImgHTMLAttributes } from "react";
-import logoWhite from "@/assets/amnay-logo-white.png.asset.json";
-import logoDark from "@/assets/amnay-logo-dark.png.asset.json";
-import emblem from "@/assets/amnay-emblem.png.asset.json";
 
 type Theme = "dark" | "light";
 
-const LOGOS: Record<Theme, string> = {
-  dark: logoWhite.url, // white wordmark — for dark backgrounds
-  light: logoDark.url, // navy wordmark — for light backgrounds
-};
+/** Static brand files served from public/brand, with their intrinsic sizes
+ *  so every <img> reserves its box before the file loads (no layout shift). */
+export const BRAND = {
+  logoWhite: { src: "/brand/amnay-logo-white.png", width: 1574, height: 393 },
+  logoDark: { src: "/brand/amnay-logo-dark.png", width: 1663, height: 418 },
+  emblem: { src: "/brand/amnay-emblem.png", width: 1669, height: 1697 },
+} as const;
 
-type LogoProps = ImgHTMLAttributes<HTMLImageElement> & { theme?: Theme };
+const LOGOS = {
+  dark: BRAND.logoWhite, // white wordmark — for dark backgrounds
+  light: BRAND.logoDark, // navy wordmark — for light backgrounds
+} as const;
+
+type LogoProps = ImgHTMLAttributes<HTMLImageElement> & {
+  theme?: Theme;
+  /** Above-the-fold logo (header): load eagerly with high fetch priority. */
+  priority?: boolean;
+};
 
 /**
  * Official logo files, used exactly as provided.
  * theme="dark"  → white wordmark, for dark backgrounds (default on this site)
  * theme="light" → navy wordmark, for light backgrounds
  */
-export function Logo({ theme = "dark", className, alt = "Amnay by IZEMX", ...rest }: LogoProps) {
+export function Logo({
+  theme = "dark",
+  className,
+  alt = "Amnay by IZEMX",
+  priority = false,
+  ...rest
+}: LogoProps) {
+  const logo = LOGOS[theme];
   return (
     <img
-      src={LOGOS[theme]}
+      src={logo.src}
+      width={logo.width}
+      height={logo.height}
       alt={alt}
       className={className}
       draggable={false}
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
+      decoding="async"
       {...rest}
     />
   );
 }
 
-/** Emblem only — favicon, tight spaces, decorative use. */
-export function Emblem({
-  className,
-  alt = "Emblème Amnay",
-  ...rest
-}: ComponentProps<"img">) {
+/** Emblem only — tight spaces, decorative use. */
+export function Emblem({ className, alt = "Emblème Amnay", ...rest }: ComponentProps<"img">) {
   return (
-    <img src={emblem.url} alt={alt} className={className} draggable={false} {...rest} />
+    <img
+      src={BRAND.emblem.src}
+      width={BRAND.emblem.width}
+      height={BRAND.emblem.height}
+      alt={alt}
+      className={className}
+      draggable={false}
+      loading="lazy"
+      decoding="async"
+      {...rest}
+    />
   );
 }

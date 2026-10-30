@@ -8,6 +8,10 @@ export const site = {
   company: "IZEMX",
   tagline: "Amnay lit les marchés publics pour vous.",
   contactEmail: "contact@izemx.com",
+  /** Public origin of this site — used for absolute og:image / twitter:image URLs. */
+  url: "https://amnay-demo.izemx.com",
+  /** Social preview (1200×630), served from public/. */
+  ogImage: "/og-image.jpg",
   /** Signup / trial app — every trial CTA links here with stored UTMs. */
   trialUrl: "https://app.amnay.ma/inscription",
   /** Booking embed URL (Cal.com / Calendly …). Empty = placeholder card. */

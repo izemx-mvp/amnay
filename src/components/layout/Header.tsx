@@ -24,7 +24,7 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-50 glass border-b border-border">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
         <a href="/" className="flex items-center" aria-label="Amnay by IZEMX — accueil">
-          <Logo theme="dark" className="h-7 w-auto sm:h-8" />
+          <Logo theme="dark" priority className="h-7 w-auto sm:h-8" />
         </a>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Navigation principale">

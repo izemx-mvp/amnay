@@ -22,7 +22,36 @@ export const hero = {
     "Rédacteur prépare le mémoire… section 2",
   ],
   windowTitle: "app.amnay — Daily Brief",
+  titleHighlight: ["marchés", "publics"],
+  sequence: {
+    reader: "Lecteur",
+    readerFile: "DCE_81_2026_PDENE.pdf",
+    readerPages: 212,
+    readerStopPage: 47,
+    score: 92,
+    scoreLabel: "Score",
+    eligible: "Éligible",
+    facts: ["Qualification RME", "Caution 15 000 MAD", "J-24"],
+  },
 } as const;
+
+/** Infinite marquee under the hero. */
+export const categories = [
+  "Topographie",
+  "Géotechnique",
+  "Nettoyage",
+  "Gardiennage",
+  "Informatique",
+  "Formation",
+  "Restauration",
+  "Études VRD",
+  "Laboratoire",
+  "Fournitures de bureau",
+  "Contrôle technique",
+  "Maintenance",
+  "Assistance technique",
+  "Communication",
+] as const;
 
 export type TenderRow = {
   score: number;
@@ -71,7 +100,30 @@ export const tenderRows: TenderRow[] = [
 ];
 
 export const problem = {
+  id: "probleme",
+  index: "02",
+  label: "Le problème",
   title: "Répondre à un marché public coûte trop cher aux PME",
+  /** Big statement: `n` ticks up, `before`/`after` surround it. */
+  statement: [
+    { before: "Un dossier de", n: 212, after: "pages." },
+    { before: "", n: 3, after: "jours pour répondre." },
+    { before: "Personne pour le lire.", n: null, after: "" },
+  ],
+  receipt: {
+    header: "REÇU · RÉPONSE AUX AO",
+    subheader: "PME · MAROC · 2026",
+    title: "Ce que ça coûte aujourd'hui",
+    lead: "Sans compter les marchés manqués, impossibles à chiffrer. Et chaque dossier repart d'une page blanche.",
+    lines: [
+      { label: "Chargé d'AO", amount: "8 000–15 000", unit: "MAD/mois" },
+      { label: "Consultant", amount: "5 000–25 000", unit: "MAD/dossier" },
+      { label: "Marchés manqués", amount: "—", unit: "impossible à chiffrer" },
+    ],
+    /** Total and footer amounts are computed from config/site.ts. */
+    totalLabel: "TOTAL · chargé d'AO sur 12 mois",
+    footer: "Amnay Pro, en annuel",
+  },
   cards: [
     {
       icon: "eye-off",
@@ -106,9 +158,53 @@ export const problem = {
 
 export const howItWorks = {
   id: "fonctionnement",
+  index: "03",
+  label: "Fonctionnement",
   title: "Comment ça marche",
-  callout:
-    "Amnay ne remplace ni la décision ni la signature : il les prépare.",
+  highlight: ["marche"],
+  screens: {
+    detect: {
+      title: "app.amnay — Veille du jour",
+      profile: "Profil · Topographie, SIG, VRD",
+      counter: "1 240 avis lus aujourd'hui",
+    },
+    read: {
+      title: "app.amnay — CPS.pdf",
+      file: "CPS.pdf",
+      facts: [
+        { label: "Qualification exigée", value: "RME", cite: "CPS.pdf · p. 47" },
+        { label: "Caution provisoire", value: "15 000 MAD", cite: "RC.pdf · p. 12" },
+        { label: "Délai d'exécution", value: "6 mois", cite: "CPS.pdf · p. 9" },
+      ],
+    },
+    decide: {
+      title: "app.amnay — Go / No-Go",
+      verdict: "GO",
+      verdictNote: "Éligible · 14 critères vérifiés",
+      criteria: [
+        { label: "Références similaires", value: 95 },
+        { label: "Moyens humains", value: 88 },
+        { label: "Qualification RME", value: 100 },
+        { label: "Délai de réponse", value: 72 },
+      ],
+      pieces: ["Attestation fiscale", "Attestation CNSS", "Caution provisoire"],
+    },
+    respond: {
+      title: "app.amnay — Mémoire technique",
+      outline: [
+        "1. Compréhension",
+        "2. Méthodologie",
+        "3. Moyens humains",
+        "4. Planning",
+        "5. Références",
+      ],
+      activeOutline: 1,
+      heading: "2. Méthodologie d'intervention",
+      text: "Notre équipe réalisera les levés topographiques en trois phases : reconnaissance du site et implantation du canevas, levés de détail au GNSS et à la station totale, puis intégration des données dans le SIG de l'acheteur, avec un contrôle qualité à chaque étape.",
+      style: "Votre style · 3 mémoires appris",
+    },
+  },
+  callout: "Amnay ne remplace ni la décision ni la signature : il les prépare.",
   steps: [
     {
       n: "01",
@@ -134,13 +230,38 @@ export const howItWorks = {
 } as const;
 
 export const proofs = {
-  title: "Les 5 preuves",
+  id: "preuves",
+  index: "04",
+  label: "Preuves",
+  title: "Cinq preuves, pas des promesses",
+  highlight: ["preuves,"],
+  scanArabic: "يتعين على المتنافس الإدلاء بشهادة التأهيل والتصنيف",
+  scanFrench:
+    "Le soumissionnaire doit produire le certificat de qualification et de classification.",
+  checklist: [
+    { label: "Attestation fiscale", ok: true },
+    { label: "Attestation CNSS", ok: true },
+    { label: "Qualification RME", ok: true },
+    { label: "Références similaires", ok: true },
+    { label: "Caution provisoire", ok: false },
+  ],
+  checklistTodo: "à préparer",
+  editorSource: "Extrait de vos mémoires",
+  editorSourceText: "Nos équipes interviennent en binôme, avec un contrôle qualité à chaque étape.",
+  editorText:
+    "Les levés seront réalisés en binôme, avec un contrôle qualité systématique à chaque phase du chantier.",
+  priceFrom: "dès",
+  priceBack: "14 jours d'essai · sans carte bancaire",
   cards: [
     {
       visual: "citation",
       title: "Chaque réponse cite le fichier et la page",
       body: "Une information sans source n'existe pas. Amnay renvoie systématiquement au document d'origine.",
-      sample: { file: "DCE_81_2026_PDENE.pdf", page: "p. 47", quote: "« L'attributaire doit justifier d'une qualification RME… »" },
+      sample: {
+        file: "DCE_81_2026_PDENE.pdf",
+        page: "p. 47",
+        quote: "« L'attributaire doit justifier d'une qualification RME… »",
+      },
     },
     {
       visual: "scans",
@@ -171,7 +292,23 @@ export const proofs = {
 
 export const agents = {
   id: "agents",
+  index: "05",
+  label: "Agents",
   title: "Sept agents, un par étape",
+  highlight: ["agents,"],
+  logLabel: "Journal d'exemple",
+  parallelLabel: "En continu, en parallèle",
+  /** Order of the main pipeline; the others orbit. */
+  pipeline: ["Éclaireur", "Lecteur", "Juge", "Rédacteur", "Greffier"],
+  logs: {
+    Éclaireur: "Éclaireur · 0,6 s · 1 240 avis comparés à votre profil",
+    Lecteur: "Lecteur · 42 s · 212 pages lues, dont 3 scans",
+    Juge: "Juge · 1,8 s · 14 critères vérifiés",
+    Rédacteur: "Rédacteur · 38 s · section 2 rédigée",
+    Greffier: "Greffier · 4,2 s · 9 pièces vérifiées",
+    Analyste: "Analyste · 2,4 s · 37 attributions comparées",
+    Vigie: "Vigie · en continu · 1 rectificatif détecté",
+  } as Record<string, string>,
   note: "Un dossier public n'est lu qu'une fois pour tous : c'est ce qui rend le prix possible.",
   list: [
     {
@@ -212,9 +349,68 @@ export const agents = {
   ],
 } as const;
 
+export const comparatorCopy = {
+  id: "comparateur",
+  index: "06",
+  label: "Comparateur",
+  title: "Faites le calcul vous-même",
+  highlight: ["calcul"],
+  today: "Aujourd'hui",
+  amnay: "Avec Amnay Pro",
+  perMonth: "MAD / mois",
+  modes: { charged: "Chargé d'AO", consultant: "Consultant" },
+  dossiersLabel: "Dossiers par mois",
+  savingsLabel: "MAD économisés par an",
+  amnayNote: "Pro en annuel, mensualisé",
+} as const;
+
+export const pricingCopy = {
+  id: "tarifs",
+  index: "07",
+  label: "Tarifs",
+  title: "Un prix public, sans surprise",
+  highlight: ["public,"],
+  monthly: "Mensuel",
+  yearly: "Annuel",
+  perMonth: "/mois",
+  perYear: "/an",
+  yearlyEquivalent: "soit {n} MAD HT/mois",
+  popular: "Le plus choisi",
+  recommended: "Recommandé pour vous",
+  cta: "Essayer gratuitement",
+  hostedCta: "Nous contacter",
+  simulator: {
+    title: "simulateur — crédits / mois",
+    intro: "Estimez votre usage mensuel",
+    total: "crédits / mois",
+    plan: "Plan recommandé",
+    usage: "du quota mensuel",
+    perUnit: "{n} crédit(s) / unité",
+  },
+} as const;
+
+export const foundersCopy = {
+  id: "fondateurs",
+  index: "08",
+  label: "Offre Fondateurs",
+  title: "50 places pour construire Amnay avec nous",
+  highlight: ["50", "places"],
+  passLabel: "PASS FONDATEUR",
+  serialPrefix: "FONDATEUR Nº",
+  countdownLabel: "Fin de l'offre",
+  units: { days: "jours", hours: "heures", minutes: "min" },
+  placesLabel: "{n} places restantes sur {total}",
+  cta: "Réserver ma place",
+  planNote: "Sur le plan de votre choix",
+} as const;
+
 export const faq = {
   id: "faq",
-  title: "Questions fréquentes",
+  index: "09",
+  label: "FAQ",
+  title: "Les objections qu'on entend le plus",
+  highlight: ["objections"],
+  demoPrompt: "Une autre question ? Posez-la pendant la démo.",
   items: [
     {
       q: "On a déjà Maroc Business",
@@ -245,8 +441,23 @@ export const faq = {
 
 export const demo = {
   id: "demo",
+  index: "10",
+  label: "Démo",
   title: "Réserver une démo",
+  highlight: ["démo"],
   pitch: "30 minutes avec notre équipe, sur un vrai appel d'offres de votre secteur",
+  calendarTagline: "30 min, sur un vrai AO de votre secteur",
+  calendarNote: "Créneaux indicatifs : nous confirmons par téléphone.",
+  slots: ["09:30", "11:00", "14:30", "16:00"],
+  weekdays: ["L", "M", "M", "J", "V", "S", "D"],
+  errors: {
+    name: "Indiquez votre nom",
+    company: "Indiquez votre société",
+    phone: "Numéro invalide (ex. 06 12 34 56 78)",
+    sector: "Choisissez un secteur",
+    size: "Choisissez une taille",
+  },
+  slotChosen: "Créneau souhaité : {slot}",
   calendarPlaceholder:
     "Emplacement réservé au module de réservation. En attendant, utilisez le formulaire : nous revenons vers vous sous 24 h ouvrées.",
   form: {
@@ -270,6 +481,7 @@ export const demo = {
 
 export const finalCta = {
   title: "Votre première veille en 10 minutes",
+  highlight: ["10", "minutes"],
   primary: "Commencer l'essai gratuit",
   secondary: "Réserver une démo",
 } as const;
