@@ -122,6 +122,7 @@ export const pricing = {
 } as const;
 
 export const founders = {
+  discountLabel: "-30 % sur l'abonnement annuel",
   /** -30 % on the annual subscription, plan of the client's choice. */
   placesTotal: 50,
   placesRemaining: 50,
