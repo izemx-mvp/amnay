@@ -18,7 +18,6 @@ import { Problem } from "@/components/sections/Problem";
 import { Proofs } from "@/components/sections/Proofs";
 import { captureUtms } from "@/lib/tracking";
 
-// No head() here: the home route inherits title/description/og/twitter
 // (including og:image) from __root.tsx.
 export const Route = createFileRoute("/")({
   component: Index,
