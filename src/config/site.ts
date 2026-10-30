@@ -122,8 +122,7 @@ export const pricing = {
 } as const;
 
 export const founders = {
-  discountLabel: "-30 % sur l'abonnement annuel",
-  yearlyPrice: 4900 * 0.7, // displayed as computed from Starter? No — applies to annual plan of the client's choice
+  /** -30 % on the annual subscription, plan of the client's choice. */
   placesTotal: 50,
   placesRemaining: 50,
   /** Countdown target (Morocco time). */

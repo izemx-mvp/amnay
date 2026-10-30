@@ -279,5 +279,3 @@ export const footer = {
   solutionLine: "Une solution IZEMX",
   copyright: "© 2026 IZEMX",
 } as const;
-
-export const problem = undefined as never; // placeholder guard (replaced above)
