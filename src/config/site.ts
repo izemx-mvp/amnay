@@ -198,10 +198,12 @@ export const simulator: {
       default: 60,
     },
   ],
-  recommend: (credits: number) => {
-    if (credits <= plans[0].creditsPerMonth) return plans[0];
-    if (credits <= plans[1].creditsPerMonth) return plans[1];
-    return plans[2];
+  recommend: (credits: number): Plan => {
+    const [starter, pro, business] = plans;
+    if (!starter || !pro || !business) throw new Error("Plans misconfigured");
+    if (credits <= starter.creditsPerMonth) return starter;
+    if (credits <= pro.creditsPerMonth) return pro;
+    return business;
   },
 };
 
