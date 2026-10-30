@@ -1,7 +1,14 @@
 import { cn } from "@/lib/utils";
+import { CountUp } from "./CountUp";
+
+type ScoreBadgeProps = {
+  score: number;
+  countUp?: boolean;
+  className?: string;
+};
 
 /** Score badge: green ≥ 90, blue ≥ 75, amber ≥ 65, red below. */
-export function ScoreBadge({ score, className }: { score: number; className?: string }) {
+export function ScoreBadge({ score, countUp = false, className }: ScoreBadgeProps) {
   const tone =
     score >= 90
       ? "bg-success/15 text-success border-success/30"
@@ -18,7 +25,7 @@ export function ScoreBadge({ score, className }: { score: number; className?: st
         className,
       )}
     >
-      {score}
+      {countUp ? <CountUp value={score} duration={1.1} /> : score}
     </span>
   );
 }
