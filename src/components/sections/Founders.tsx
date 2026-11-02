@@ -18,7 +18,6 @@ function timeLeft(target: number): Left {
   return { days: Math.floor(m / 1440), hours: Math.floor((m % 1440) / 60), minutes: m % 60 };
 }
 
-/** Countdown computed on the client only, so SSR and hydration always agree. */
 function useCountdown(iso: string) {
   const [left, setLeft] = useState<Left | null>(null);
   useEffect(() => {
