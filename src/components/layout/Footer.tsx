@@ -7,7 +7,6 @@ import { contacts, offices } from "@/config/site";
 import { cta, footer } from "@/content/common";
 import { footerColumns } from "@/content/navigation";
 
-/* TODO: move to src/content/common.ts */
 const footerCta = {
   label: "Prêt à essayer ?",
   title: "Votre première veille en 10 minutes.",
