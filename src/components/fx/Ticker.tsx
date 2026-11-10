@@ -1,18 +1,8 @@
 import { useEffect, useRef } from "react";
 import { animate, useInView, useReducedMotion } from "framer-motion";
+import { frNumber } from "@/lib/format";
 
-const formatters = new Map<number, Intl.NumberFormat>();
-export function frNumber(n: number, decimals = 0) {
-  let f = formatters.get(decimals);
-  if (!f) {
-    f = new Intl.NumberFormat("fr-FR", {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
-    formatters.set(decimals, f);
-  }
-  return f.format(n);
-}
+export { frNumber };
 
 type TickerProps = {
   value: number;

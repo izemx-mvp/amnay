@@ -1,4 +1,4 @@
-import { site } from "@/config/site";
+import { urls } from "@/config/site";
 
 const UTM_KEYS = [
   "utm_source",
@@ -46,8 +46,7 @@ export function captureUtms() {
 export function getStoredUtms(): Utms {
   if (typeof window === "undefined") return {};
   try {
-    const raw =
-      window.localStorage.getItem(LAST_KEY) ?? window.localStorage.getItem(FIRST_KEY);
+    const raw = window.localStorage.getItem(LAST_KEY) ?? window.localStorage.getItem(FIRST_KEY);
     if (!raw) return {};
     const { ts: _ts, ...utms } = JSON.parse(raw) as Utms & { ts?: string };
     return utms;
@@ -60,13 +59,13 @@ export function getStoredUtms(): Utms {
 export function buildTrialUrl(): string {
   const utms = getStoredUtms();
   try {
-    const url = new URL(site.trialUrl);
+    const url = new URL(urls.trialUrl);
     for (const [key, value] of Object.entries(utms)) {
       if (value) url.searchParams.set(key, value);
     }
     return url.toString();
   } catch {
-    return site.trialUrl;
+    return urls.trialUrl;
   }
 }
 

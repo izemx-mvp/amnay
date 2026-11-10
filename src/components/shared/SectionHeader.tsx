@@ -2,11 +2,14 @@ import type { ReactNode } from "react";
 import { RevealWords } from "@/components/fx/RevealWords";
 import { cn } from "@/lib/utils";
 
-type SectionHeaderProps = {
-  index: string;
+export type SectionHeading = {
+  index?: string;
   label: string;
   title: string;
   highlight?: readonly string[];
+};
+
+type SectionHeaderProps = SectionHeading & {
   className?: string;
   children?: ReactNode;
 };
@@ -24,7 +27,7 @@ export function SectionHeader({
     <div className={cn("max-w-3xl", className)}>
       <p className="section-label flex items-center gap-3">
         <span className="h-px w-8 bg-gradient-to-r from-transparent to-primary" aria-hidden />
-        {index} — {label}
+        {index ? `${index} — ${label}` : label}
       </p>
       <RevealWords
         text={title}

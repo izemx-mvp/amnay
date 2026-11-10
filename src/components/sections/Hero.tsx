@@ -15,83 +15,198 @@ import { RevealWords } from "@/components/fx/RevealWords";
 import { Ticker } from "@/components/fx/Ticker";
 import { useFinePointer, useLoop, useTicker } from "@/components/fx/hooks";
 import { ScoreBadge } from "@/components/shared/ScoreBadge";
-import { categories, hero, heroStats, tenderRows } from "@/content/home";
+import { heroImages } from "@/config/images";
+import { heroStats } from "@/config/site";
+import { marqueeLabel as defaultMarqueeLabel, sampleDataLabel } from "@/content/common";
+import type { TenderRow } from "@/content/product";
 import { cn } from "@/lib/utils";
 
-export function Hero() {
+/** Everything the hero needs; home and segment pages each provide their own. */
+export type HeroData = {
+  badge: string;
+  title: string;
+  titleHighlight: readonly string[];
+  subtitle: string;
+  primaryCta: string;
+  secondaryCta?: string;
+  microcopy: string;
+  windowTitle: string;
+  rows: readonly TenderRow[];
+  statusLines: readonly string[];
+  ariaLabel: string;
+  sequence: {
+    reader: string;
+    readerFile: string;
+    readerPages: number;
+    readerStopPage: number;
+    score: number;
+    scoreLabel: string;
+    eligible: string;
+    facts: readonly string[];
+  };
+};
+
+type HeroProps = {
+  hero: HeroData;
+  /** Sectors scrolling under the hero. */
+  marquee: readonly string[];
+  marqueeLabel?: string;
+  /** Market figures under the CTAs (home only). */
+  stats?: boolean;
+  surface?: string;
+  /**
+   * Home: the duo illustration (user + his agent) as a full-bleed background on
+   * desktop, and as a rounded image under the CTAs on smaller screens. The
+   * animated product window is then rendered elsewhere (see AgentAtWork).
+   */
+  backdrop?: boolean;
+};
+
+/** Home / segment hero: headline + visual (illustration or animated window) + sector marquee. */
+export function Hero({
+  hero,
+  marquee,
+  marqueeLabel = defaultMarqueeLabel,
+  stats = false,
+  surface = "hero",
+  backdrop = false,
+}: HeroProps) {
   return (
-    <section className="relative overflow-hidden pt-28 lg:pt-36">
+    <section className="relative isolate overflow-hidden">
       {/* light, not boxes */}
-      <div aria-hidden className="grid-fade pointer-events-none absolute inset-0" />
+      <div aria-hidden className="grid-fade pointer-events-none absolute inset-0 -z-30" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 right-[-10%] size-[900px] rounded-full bg-[radial-gradient(circle,oklch(0.681_0.147_238.6/0.22),transparent_62%)]"
+        className="pointer-events-none absolute -top-40 right-[-10%] -z-30 size-[900px] rounded-full bg-[radial-gradient(circle,oklch(0.681_0.147_238.6/0.22),transparent_62%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/3 -left-60 size-[600px] rounded-full bg-[radial-gradient(circle,oklch(0.681_0.147_238.6/0.1),transparent_65%)]"
+        className="pointer-events-none absolute top-1/3 -left-60 -z-30 size-[600px] rounded-full bg-[radial-gradient(circle,oklch(0.681_0.147_238.6/0.1),transparent_65%)]"
       />
-      <Emblem
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute top-1/2 right-[-12%] hidden w-[820px] max-w-none -translate-y-1/2 opacity-[0.045] select-none lg:block"
-      />
+      {!backdrop && (
+        <Emblem
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute top-1/2 right-[-12%] -z-30 hidden w-[820px] max-w-none -translate-y-1/2 opacity-[0.045] select-none lg:block"
+        />
+      )}
 
-      <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-6">
-          <p className="section-label inline-flex items-center gap-2 rounded-full border border-border bg-foreground/[0.03] px-3 py-1.5 text-[11px]">
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
-            </span>
-            {hero.badge}
-          </p>
+      {/* Positioning context of the desktop backdrop: the hero minus the marquee. */}
+      <div className="relative pt-28 lg:pt-36">
+        {backdrop && <BackdropOverlays />}
 
-          <RevealWords
-            as="h1"
-            immediate
-            delay={0.1}
-            text={hero.title}
-            highlight={hero.titleHighlight}
-            className="h1-display mt-7 text-foreground"
-          />
+        <div
+          className={cn(
+            "relative mx-auto grid w-full max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-12 lg:gap-8",
+            backdrop && "gap-10 lg:static lg:min-h-[640px]",
+          )}
+        >
+          <div className="relative lg:col-span-6">
+            <p className="section-label inline-flex items-center gap-2 rounded-full border border-border bg-foreground/[0.03] px-3 py-1.5 text-[11px]">
+              <span className="relative flex size-1.5">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-primary opacity-60" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
+              </span>
+              {hero.badge}
+            </p>
 
-          <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
-            {hero.subtitle}
-          </p>
+            <RevealWords
+              as="h1"
+              immediate
+              delay={0.1}
+              text={hero.title}
+              highlight={hero.titleHighlight}
+              className="h1-display mt-7 text-foreground"
+            />
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <TrialCta surface="hero">{hero.primaryCta}</TrialCta>
-            <DemoCta surface="hero">{hero.secondaryCta}</DemoCta>
+            <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              {hero.subtitle}
+            </p>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <TrialCta surface={surface}>{hero.primaryCta}</TrialCta>
+              {hero.secondaryCta && <DemoCta surface={surface}>{hero.secondaryCta}</DemoCta>}
+            </div>
+            <p className="mt-4 font-mono text-xs text-muted-foreground">{hero.microcopy}</p>
+
+            {stats && (
+              <dl className="mt-12 grid grid-cols-3 divide-x divide-border border-t border-border pt-6">
+                {heroStats.map((s) => (
+                  <div key={s.label} className="px-3 first:ps-0">
+                    <dt className="sr-only">{s.label}</dt>
+                    <dd className="font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                      <Ticker value={s.value} prefix={s.prefix} suffix={s.suffix} />
+                    </dd>
+                    <dd className="mt-1 text-xs leading-snug text-muted-foreground">{s.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
           </div>
-          <p className="mt-4 font-mono text-xs text-muted-foreground">{hero.microcopy}</p>
 
-          <dl className="mt-12 grid grid-cols-3 divide-x divide-border border-t border-border pt-6">
-            {heroStats.map((s) => (
-              <div key={s.label} className="px-3 first:ps-0">
-                <dt className="sr-only">{s.label}</dt>
-                <dd className="font-display text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-                  <Ticker value={s.value} prefix={s.prefix} suffix={s.suffix} />
-                </dd>
-                <dd className="mt-1 text-xs leading-snug text-muted-foreground">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="lg:col-span-6">
-          <HeroWindow />
+          {backdrop ? (
+            <HeroBackdrop />
+          ) : (
+            <div className="lg:col-span-6">
+              <HeroWindow hero={hero} />
+            </div>
+          )}
         </div>
       </div>
 
-      <Marquee />
+      <Marquee items={marquee} label={marqueeLabel} />
     </section>
+  );
+}
+
+/* ─────────────────────────── duo backdrop ─────────────────────────── */
+
+/**
+ * One <picture>, two roles. < md: the portrait crop as a rounded block under the
+ * CTAs. md–lg: the wide file, cropped on the characters, still a block (a tall
+ * tablet hero would push them behind the text). ≥ lg: the wide file becomes the
+ * full-bleed background, width-driven and anchored right so the characters
+ * stay clear of the text column at every width.
+ */
+function HeroBackdrop() {
+  const { desktop, mobile } = heroImages;
+  return (
+    <picture className="relative block overflow-hidden rounded-3xl ring-1 ring-border/60 lg:static lg:col-span-6 lg:overflow-visible lg:rounded-none lg:ring-0">
+      <source
+        media="(min-width: 768px)"
+        srcSet={desktop.src}
+        width={desktop.width}
+        height={desktop.height}
+      />
+      <img
+        src={mobile.src}
+        width={mobile.width}
+        height={mobile.height}
+        alt={desktop.alt}
+        loading="eager"
+        fetchPriority="high"
+        draggable={false}
+        className="block h-auto w-full select-none md:aspect-[16/10] md:object-cover md:object-[right_center] lg:absolute lg:top-1/2 lg:right-0 lg:-z-20 lg:aspect-[2400/1340] lg:-translate-y-1/2 lg:[mask-image:linear-gradient(to_bottom,transparent,#000_14%,#000_78%,transparent)]"
+      />
+    </picture>
+  );
+}
+
+/** Desktop only: left-to-right scrim for the text, and a fade into the marquee. */
+function BackdropOverlays() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 hidden lg:block">
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--color-background)_0%,var(--color-background)_38%,oklch(0.149_0.026_259.1/0.75)_46%,transparent_62%)]" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background/80 to-transparent" />
+    </div>
   );
 }
 
 /* ─────────────────────────── 3D window ─────────────────────────── */
 
-function HeroWindow() {
+/** Animated product window (agent reading a tender). Exported for the home "after" band. */
+export function HeroWindow({ hero }: { hero: HeroData }) {
   const fine = useFinePointer();
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -121,7 +236,7 @@ function HeroWindow() {
         className="relative"
         style={fine ? { rotateX, rotateY, transformStyle: "preserve-3d" } : {}}
       >
-        <HeroSequence />
+        <HeroSequence hero={hero} />
         {/* glossy reflection on the glass */}
         <div
           aria-hidden
@@ -143,7 +258,7 @@ const LOOP_MS = 9500;
 const ROW_H = 60;
 const PANEL_H = 196;
 
-function HeroSequence() {
+function HeroSequence({ hero }: { hero: HeroData }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const run = useLoop(ref);
@@ -171,7 +286,7 @@ function HeroSequence() {
       data-run={run}
       className="border-light relative overflow-hidden rounded-2xl bg-[oklch(0.18_0.034_257)] shadow-elevated"
       role="img"
-      aria-label="Démonstration : Amnay détecte un appel d'offres, lit le dossier et le déclare éligible avec un score de 92."
+      aria-label={hero.ariaLabel}
     >
       <div className="flex items-center gap-2 border-b border-border/70 bg-navy/70 px-4 py-2.5">
         <span className="size-2.5 rounded-full bg-foreground/15" />
@@ -179,12 +294,12 @@ function HeroSequence() {
         <span className="size-2.5 rounded-full bg-foreground/15" />
         <span className="ms-3 font-mono text-[11px] text-muted-foreground">{hero.windowTitle}</span>
         <span className="ms-auto font-mono text-[9px] tracking-wider text-muted-foreground/70 uppercase">
-          {hero.demoDataLabel}
+          {sampleDataLabel}
         </span>
       </div>
 
       <div className="relative h-[408px] overflow-hidden" key={reduce ? "static" : cycle}>
-        {tenderRows.map((row, i) => (
+        {hero.rows.map((row, i) => (
           <motion.div
             key={row.ref}
             className={cn(
@@ -232,7 +347,7 @@ function HeroSequence() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <DetailPanel phase={shown} />
+              <DetailPanel phase={shown} hero={hero} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -257,7 +372,7 @@ function HeroSequence() {
   );
 }
 
-function DetailPanel({ phase }: { phase: number }) {
+function DetailPanel({ phase, hero }: { phase: number; hero: HeroData }) {
   const s = hero.sequence;
   const pageRef = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
@@ -339,7 +454,7 @@ function DetailPanel({ phase }: { phase: number }) {
 
       {/* Score ring + verdict */}
       <div className="flex w-28 flex-col items-center justify-center gap-2">
-        <ScoreRing value={phase >= 3 ? s.score : 0} />
+        <ScoreRing value={phase >= 3 ? s.score : 0} label={s.scoreLabel} />
         <div className="h-6">
           <AnimatePresence>
             {phase >= 4 && (
@@ -360,7 +475,7 @@ function DetailPanel({ phase }: { phase: number }) {
   );
 }
 
-function ScoreRing({ value }: { value: number }) {
+function ScoreRing({ value, label }: { value: number; label: string }) {
   const reduce = useReducedMotion();
   const numRef = useRef<HTMLSpanElement>(null);
 
@@ -414,9 +529,7 @@ function ScoreRing({ value }: { value: number }) {
         <span ref={numRef} className="font-display text-2xl font-bold text-foreground tabular-nums">
           0
         </span>
-        <span className="-mt-1 font-mono text-[9px] text-muted-foreground uppercase">
-          {hero.sequence.scoreLabel}
-        </span>
+        <span className="-mt-1 font-mono text-[9px] text-muted-foreground uppercase">{label}</span>
       </span>
     </div>
   );
@@ -424,16 +537,16 @@ function ScoreRing({ value }: { value: number }) {
 
 /* ─────────────────────────── marquee ─────────────────────────── */
 
-function Marquee() {
+function Marquee({ items: base, label }: { items: readonly string[]; label: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const run = useLoop(ref);
-  const items = [...categories, ...categories];
+  const items = [...base, ...base];
   return (
     <div
       ref={ref}
       data-run={run}
       className="mask-fade-x relative mt-20 overflow-hidden border-y border-border/60 py-5"
-      aria-label="Secteurs couverts"
+      aria-label={label}
     >
       <ul
         className="animate-marquee flex w-max gap-10"
@@ -442,7 +555,7 @@ function Marquee() {
         {items.map((c, i) => (
           <li
             key={i}
-            aria-hidden={i >= categories.length}
+            aria-hidden={i >= base.length}
             className="flex items-center gap-10 font-mono text-sm tracking-[0.12em] whitespace-nowrap text-muted-foreground uppercase"
           >
             {c}

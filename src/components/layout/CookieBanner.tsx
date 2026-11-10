@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppLink } from "@/components/shared/AppLink";
+import { MascotImage } from "@/components/shared/Mascot";
+import { botImages } from "@/config/images";
 import { site } from "@/config/site";
+import { cookieBanner as copy } from "@/content/common";
+import { routes } from "@/content/navigation";
 
 type Consent = { analytics: boolean; marketing: boolean; ts: string };
 
@@ -37,57 +42,56 @@ export function CookieBanner() {
   return (
     <div
       role="dialog"
-      aria-label="Gestion des cookies"
-      className="fixed inset-x-4 bottom-4 z-50 rounded-2xl border border-border bg-popover p-4 shadow-elevated sm:right-6 sm:left-auto sm:max-w-md"
+      aria-label={copy.label}
+      className="fixed inset-x-4 bottom-4 z-[55] rounded-2xl border border-border bg-popover p-4 shadow-elevated sm:right-6 sm:left-auto sm:max-w-md"
     >
       <div className="flex items-start gap-3">
-        <Cookie className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+        {/* mascot from 400px up; plain icon on the narrowest phones */}
+        <Cookie className="mt-0.5 size-5 shrink-0 text-primary min-[400px]:hidden" aria-hidden />
+        <MascotImage
+          image={botImages.cookie}
+          alt=""
+          sizes="72px"
+          className="-my-1 -ms-1 hidden w-14 shrink-0 min-[400px]:block sm:w-[72px]"
+        />
         <div className="min-w-0 flex-1">
           <p className="text-sm text-foreground">
-            Nous utilisons des cookies pour mesurer l'audience et améliorer le site,
-            conformément à la loi 09-08 (CNDP).
+            {copy.text}{" "}
+            <AppLink
+              href={routes.cookies}
+              className="text-primary underline-offset-4 hover:underline"
+            >
+              {copy.more}
+            </AppLink>
           </p>
 
           {customize && (
             <div className="mt-3 space-y-2">
-              <Toggle
-                label="Mesure d'audience"
-                checked={analytics}
-                onChange={setAnalytics}
-              />
-              <Toggle label="Marketing" checked={marketing} onChange={setMarketing} />
+              <Toggle label={copy.analytics} checked={analytics} onChange={setAnalytics} />
+              <Toggle label={copy.marketing} checked={marketing} onChange={setMarketing} />
             </div>
           )}
 
-          <p className="mt-2 text-xs text-muted-foreground">
-            {/* GTM placeholder: load the tag here only after consent is accepted. */}
-          </p>
+          {/* GTM placeholder: load the tag only after consent is accepted. */}
 
           <div className="mt-3 flex flex-wrap gap-2">
-            <Button
-              size="sm"
-              onClick={() => save({ analytics: true, marketing: true })}
-            >
-              Accepter
+            <Button size="sm" onClick={() => save({ analytics: true, marketing: true })}>
+              {copy.accept}
             </Button>
             <Button
               size="sm"
               variant="outline"
               onClick={() => save({ analytics: false, marketing: false })}
             >
-              Refuser
+              {copy.refuse}
             </Button>
             {customize ? (
-              <Button
-                size="sm"
-                variant="ghost"
-                onClick={() => save({ analytics, marketing })}
-              >
-                Enregistrer
+              <Button size="sm" variant="ghost" onClick={() => save({ analytics, marketing })}>
+                {copy.save}
               </Button>
             ) : (
               <Button size="sm" variant="ghost" onClick={() => setCustomize(true)}>
-                Personnaliser
+                {copy.customize}
               </Button>
             )}
           </div>

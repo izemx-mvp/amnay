@@ -9,50 +9,419 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as LandingRouteImport } from './routes/_landing'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as LandingEssaiRouteImport } from './routes/_landing/essai'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteSegmentRouteImport } from './routes/_site/$segment'
+import { Route as SiteConditionsGeneralesRouteImport } from './routes/_site/conditions-generales'
+import { Route as SiteCookiesRouteImport } from './routes/_site/cookies'
+import { Route as SiteDemoRouteImport } from './routes/_site/demo'
+import { Route as SiteEntrepriseRouteImport } from './routes/_site/entreprise'
+import { Route as SiteFaqRouteImport } from './routes/_site/faq'
+import { Route as SiteFonctionnalitesRouteImport } from './routes/_site/fonctionnalites'
+import { Route as SiteMentionsLegalesRouteImport } from './routes/_site/mentions-legales'
+import { Route as SiteOffreFondateursRouteImport } from './routes/_site/offre-fondateurs'
+import { Route as SitePolitiqueDeConfidentialiteRouteImport } from './routes/_site/politique-de-confidentialite'
+import { Route as SiteTarifsRouteImport } from './routes/_site/tarifs'
+import { Route as SiteWebinaireRouteImport } from './routes/_site/webinaire'
+import { Route as SiteBlogIndexRouteImport } from './routes/_site/blog/index'
+import { Route as SiteBlogSlugRouteImport } from './routes/_site/blog/$slug'
 
-const IndexRoute = IndexRouteImport.update({
+const LandingRoute = LandingRouteImport.update({
+  id: '/_landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LandingEssaiRoute = LandingEssaiRouteImport.update({
+  id: '/essai',
+  path: '/essai',
+  getParentRoute: () => LandingRoute,
+} as any)
+const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteSegmentRoute = SiteSegmentRouteImport.update({
+  id: '/$segment',
+  path: '/$segment',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteConditionsGeneralesRoute = SiteConditionsGeneralesRouteImport.update({
+  id: '/conditions-generales',
+  path: '/conditions-generales',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteCookiesRoute = SiteCookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteDemoRoute = SiteDemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteEntrepriseRoute = SiteEntrepriseRouteImport.update({
+  id: '/entreprise',
+  path: '/entreprise',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteFaqRoute = SiteFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteFonctionnalitesRoute = SiteFonctionnalitesRouteImport.update({
+  id: '/fonctionnalites',
+  path: '/fonctionnalites',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteMentionsLegalesRoute = SiteMentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteOffreFondateursRoute = SiteOffreFondateursRouteImport.update({
+  id: '/offre-fondateurs',
+  path: '/offre-fondateurs',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SitePolitiqueDeConfidentialiteRoute =
+  SitePolitiqueDeConfidentialiteRouteImport.update({
+    id: '/politique-de-confidentialite',
+    path: '/politique-de-confidentialite',
+    getParentRoute: () => SiteRoute,
+  } as any)
+const SiteTarifsRoute = SiteTarifsRouteImport.update({
+  id: '/tarifs',
+  path: '/tarifs',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteWebinaireRoute = SiteWebinaireRouteImport.update({
+  id: '/webinaire',
+  path: '/webinaire',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteBlogIndexRoute = SiteBlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteBlogSlugRoute = SiteBlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => SiteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof SiteIndexRoute
+  '/essai': typeof LandingEssaiRoute
+  '/$segment': typeof SiteSegmentRoute
+  '/conditions-generales': typeof SiteConditionsGeneralesRoute
+  '/cookies': typeof SiteCookiesRoute
+  '/demo': typeof SiteDemoRoute
+  '/entreprise': typeof SiteEntrepriseRoute
+  '/faq': typeof SiteFaqRoute
+  '/fonctionnalites': typeof SiteFonctionnalitesRoute
+  '/mentions-legales': typeof SiteMentionsLegalesRoute
+  '/offre-fondateurs': typeof SiteOffreFondateursRoute
+  '/politique-de-confidentialite': typeof SitePolitiqueDeConfidentialiteRoute
+  '/tarifs': typeof SiteTarifsRoute
+  '/webinaire': typeof SiteWebinaireRoute
+  '/blog/$slug': typeof SiteBlogSlugRoute
+  '/blog/': typeof SiteBlogIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/': typeof SiteIndexRoute
+  '/essai': typeof LandingEssaiRoute
+  '/$segment': typeof SiteSegmentRoute
+  '/conditions-generales': typeof SiteConditionsGeneralesRoute
+  '/cookies': typeof SiteCookiesRoute
+  '/demo': typeof SiteDemoRoute
+  '/entreprise': typeof SiteEntrepriseRoute
+  '/faq': typeof SiteFaqRoute
+  '/fonctionnalites': typeof SiteFonctionnalitesRoute
+  '/mentions-legales': typeof SiteMentionsLegalesRoute
+  '/offre-fondateurs': typeof SiteOffreFondateursRoute
+  '/politique-de-confidentialite': typeof SitePolitiqueDeConfidentialiteRoute
+  '/tarifs': typeof SiteTarifsRoute
+  '/webinaire': typeof SiteWebinaireRoute
+  '/blog/$slug': typeof SiteBlogSlugRoute
+  '/blog': typeof SiteBlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_landing': typeof LandingRouteWithChildren
+  '/_site': typeof SiteRouteWithChildren
+  '/_landing/essai': typeof LandingEssaiRoute
+  '/_site/$segment': typeof SiteSegmentRoute
+  '/_site/conditions-generales': typeof SiteConditionsGeneralesRoute
+  '/_site/cookies': typeof SiteCookiesRoute
+  '/_site/demo': typeof SiteDemoRoute
+  '/_site/entreprise': typeof SiteEntrepriseRoute
+  '/_site/faq': typeof SiteFaqRoute
+  '/_site/fonctionnalites': typeof SiteFonctionnalitesRoute
+  '/_site/mentions-legales': typeof SiteMentionsLegalesRoute
+  '/_site/offre-fondateurs': typeof SiteOffreFondateursRoute
+  '/_site/politique-de-confidentialite': typeof SitePolitiqueDeConfidentialiteRoute
+  '/_site/tarifs': typeof SiteTarifsRoute
+  '/_site/webinaire': typeof SiteWebinaireRoute
+  '/_site/': typeof SiteIndexRoute
+  '/_site/blog/$slug': typeof SiteBlogSlugRoute
+  '/_site/blog/': typeof SiteBlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/essai'
+    | '/$segment'
+    | '/conditions-generales'
+    | '/cookies'
+    | '/demo'
+    | '/entreprise'
+    | '/faq'
+    | '/fonctionnalites'
+    | '/mentions-legales'
+    | '/offre-fondateurs'
+    | '/politique-de-confidentialite'
+    | '/tarifs'
+    | '/webinaire'
+    | '/blog/$slug'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/essai'
+    | '/$segment'
+    | '/conditions-generales'
+    | '/cookies'
+    | '/demo'
+    | '/entreprise'
+    | '/faq'
+    | '/fonctionnalites'
+    | '/mentions-legales'
+    | '/offre-fondateurs'
+    | '/politique-de-confidentialite'
+    | '/tarifs'
+    | '/webinaire'
+    | '/blog/$slug'
+    | '/blog'
+  id:
+    | '__root__'
+    | '/_landing'
+    | '/_site'
+    | '/_landing/essai'
+    | '/_site/$segment'
+    | '/_site/conditions-generales'
+    | '/_site/cookies'
+    | '/_site/demo'
+    | '/_site/entreprise'
+    | '/_site/faq'
+    | '/_site/fonctionnalites'
+    | '/_site/mentions-legales'
+    | '/_site/offre-fondateurs'
+    | '/_site/politique-de-confidentialite'
+    | '/_site/tarifs'
+    | '/_site/webinaire'
+    | '/_site/'
+    | '/_site/blog/$slug'
+    | '/_site/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  LandingRoute: typeof LandingRouteWithChildren
+  SiteRoute: typeof SiteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_landing': {
+      id: '/_landing'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof LandingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_site': {
+      id: '/_site'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_landing/essai': {
+      id: '/_landing/essai'
+      path: '/essai'
+      fullPath: '/essai'
+      preLoaderRoute: typeof LandingEssaiRouteImport
+      parentRoute: typeof LandingRoute
+    }
+    '/_site/': {
+      id: '/_site/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/$segment': {
+      id: '/_site/$segment'
+      path: '/$segment'
+      fullPath: '/$segment'
+      preLoaderRoute: typeof SiteSegmentRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/conditions-generales': {
+      id: '/_site/conditions-generales'
+      path: '/conditions-generales'
+      fullPath: '/conditions-generales'
+      preLoaderRoute: typeof SiteConditionsGeneralesRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/cookies': {
+      id: '/_site/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof SiteCookiesRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/demo': {
+      id: '/_site/demo'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof SiteDemoRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/entreprise': {
+      id: '/_site/entreprise'
+      path: '/entreprise'
+      fullPath: '/entreprise'
+      preLoaderRoute: typeof SiteEntrepriseRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/faq': {
+      id: '/_site/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof SiteFaqRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/fonctionnalites': {
+      id: '/_site/fonctionnalites'
+      path: '/fonctionnalites'
+      fullPath: '/fonctionnalites'
+      preLoaderRoute: typeof SiteFonctionnalitesRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/mentions-legales': {
+      id: '/_site/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof SiteMentionsLegalesRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/offre-fondateurs': {
+      id: '/_site/offre-fondateurs'
+      path: '/offre-fondateurs'
+      fullPath: '/offre-fondateurs'
+      preLoaderRoute: typeof SiteOffreFondateursRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/politique-de-confidentialite': {
+      id: '/_site/politique-de-confidentialite'
+      path: '/politique-de-confidentialite'
+      fullPath: '/politique-de-confidentialite'
+      preLoaderRoute: typeof SitePolitiqueDeConfidentialiteRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/tarifs': {
+      id: '/_site/tarifs'
+      path: '/tarifs'
+      fullPath: '/tarifs'
+      preLoaderRoute: typeof SiteTarifsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/webinaire': {
+      id: '/_site/webinaire'
+      path: '/webinaire'
+      fullPath: '/webinaire'
+      preLoaderRoute: typeof SiteWebinaireRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/blog/': {
+      id: '/_site/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof SiteBlogIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/blog/$slug': {
+      id: '/_site/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof SiteBlogSlugRouteImport
+      parentRoute: typeof SiteRoute
     }
   }
 }
 
+interface LandingRouteChildren {
+  LandingEssaiRoute: typeof LandingEssaiRoute
+}
+
+const LandingRouteChildren: LandingRouteChildren = {
+  LandingEssaiRoute: LandingEssaiRoute,
+}
+
+const LandingRouteWithChildren =
+  LandingRoute._addFileChildren(LandingRouteChildren)
+
+interface SiteRouteChildren {
+  SiteSegmentRoute: typeof SiteSegmentRoute
+  SiteConditionsGeneralesRoute: typeof SiteConditionsGeneralesRoute
+  SiteCookiesRoute: typeof SiteCookiesRoute
+  SiteDemoRoute: typeof SiteDemoRoute
+  SiteEntrepriseRoute: typeof SiteEntrepriseRoute
+  SiteFaqRoute: typeof SiteFaqRoute
+  SiteFonctionnalitesRoute: typeof SiteFonctionnalitesRoute
+  SiteMentionsLegalesRoute: typeof SiteMentionsLegalesRoute
+  SiteOffreFondateursRoute: typeof SiteOffreFondateursRoute
+  SitePolitiqueDeConfidentialiteRoute: typeof SitePolitiqueDeConfidentialiteRoute
+  SiteTarifsRoute: typeof SiteTarifsRoute
+  SiteWebinaireRoute: typeof SiteWebinaireRoute
+  SiteIndexRoute: typeof SiteIndexRoute
+  SiteBlogSlugRoute: typeof SiteBlogSlugRoute
+  SiteBlogIndexRoute: typeof SiteBlogIndexRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteSegmentRoute: SiteSegmentRoute,
+  SiteConditionsGeneralesRoute: SiteConditionsGeneralesRoute,
+  SiteCookiesRoute: SiteCookiesRoute,
+  SiteDemoRoute: SiteDemoRoute,
+  SiteEntrepriseRoute: SiteEntrepriseRoute,
+  SiteFaqRoute: SiteFaqRoute,
+  SiteFonctionnalitesRoute: SiteFonctionnalitesRoute,
+  SiteMentionsLegalesRoute: SiteMentionsLegalesRoute,
+  SiteOffreFondateursRoute: SiteOffreFondateursRoute,
+  SitePolitiqueDeConfidentialiteRoute: SitePolitiqueDeConfidentialiteRoute,
+  SiteTarifsRoute: SiteTarifsRoute,
+  SiteWebinaireRoute: SiteWebinaireRoute,
+  SiteIndexRoute: SiteIndexRoute,
+  SiteBlogSlugRoute: SiteBlogSlugRoute,
+  SiteBlogIndexRoute: SiteBlogIndexRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  LandingRoute: LandingRouteWithChildren,
+  SiteRoute: SiteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
